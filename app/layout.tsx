@@ -23,12 +23,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  staticSlot,
-  dynamicSlot,
 }: Readonly<{
   children: ReactNode;
-  staticSlot: ReactNode;
-  dynamicSlot: ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -51,20 +47,11 @@ export default function RootLayout({
           <Link href={"/ssr"}>SSR</Link>
           <Link href={"/ssg"}>SSG</Link>
           <Link href={"/isr"}>ISR</Link>
-          <Link href={"/ppr"}>PPR</Link>
           <Link href={"/stream-render"}>Stream Render</Link>
           <Link href={"/edge-middleware"}>Middleware</Link>
           <Link href={"/server-action"}>Server Action</Link>
         </nav>
-        {staticSlot && dynamicSlot ? (
-          <div className={styles.page}>
-            {children}
-            {staticSlot}
-            {dynamicSlot}
-          </div>
-        ) : (
-          children
-        )}
+        {children}
       </body>
     </html>
   );

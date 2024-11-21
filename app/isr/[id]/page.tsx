@@ -19,7 +19,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 }
 
 export async function generateStaticParams() {
-  return [];
+  return [{ id: "1" }];
 }
 export const revalidate = 10;
 export const dynamicParams = true;

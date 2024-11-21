@@ -1,6 +1,6 @@
 "use server";
 
-import { expirePath } from "next/cache";
+import { revalidatePath } from "next/cache";
 import fs from "node:fs";
 import path from "node:path";
 import { redirect } from "next/navigation";
@@ -18,8 +18,8 @@ export async function addActionFile(formData: FormData) {
     "",
   );
 
-  expirePath("/server-action");
-  expirePath("/server-action/list");
+  revalidatePath("/server-action");
+  revalidatePath("/server-action/list");
   redirect("/server-action/list");
 }
 
@@ -41,5 +41,5 @@ export async function deleteActionFile(formData: FormData) {
     path.join(process.cwd(), `/app/server-action/_block/files/${actionName}`),
   );
 
-  expirePath("/server-action");
+  revalidatePath("/server-action");
 }
