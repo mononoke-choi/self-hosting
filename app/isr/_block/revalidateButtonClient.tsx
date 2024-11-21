@@ -9,15 +9,13 @@ export default function RevalidateButtonClient({
   IDPromise: Promise<{ id: string }>;
 }) {
   return (
-    <>
-      <button
-        onClick={async () => {
-          const data = await IDPromise;
-          fetch(`/api/revalidate?path=/isr/${data.id}`);
-        }}
-      >
-        Revalidate
-      </button>
-    </>
+    <button
+      onClick={async () => {
+        const data = await IDPromise;
+        fetch(`/api/revalidate?path=/isr/${data.id}`);
+      }}
+    >
+      Revalidate
+    </button>
   );
 }
