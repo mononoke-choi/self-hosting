@@ -40,3 +40,7 @@ a {
     color-scheme: dark;
   }
 }
+
+button[disabled] {
+  opacity: 0.2;
+}
