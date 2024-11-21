@@ -6,13 +6,13 @@ export function middleware(request: NextRequest) {
   const value = request.cookies.get("self-hosting")?.value.toString();
 
   if (!!value && value === "true") {
-    return NextResponse.rewrite(new URL("/middleware/true", request.url));
+    return NextResponse.rewrite(new URL("/edge-middleware/true", request.url));
   } else {
-    return NextResponse.rewrite(new URL("/middleware/false", request.url));
+    return NextResponse.rewrite(new URL("/edge-middleware/false", request.url));
   }
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: "/middleware",
+  matcher: "/edge-middleware",
 };
