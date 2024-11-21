@@ -9,7 +9,7 @@ export async function action(formData: FormData) {
   console.log("Action");
 
   if (isNotValid) {
-    throw Error("Is not valid");
+    throw Error("Is not number type");
   }
 
   await heavyComputation();
@@ -17,5 +17,5 @@ export async function action(formData: FormData) {
 }
 
 async function heavyComputation() {
-  await sleep(3000);
+  await sleep(1000);
 }
