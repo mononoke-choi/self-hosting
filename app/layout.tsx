@@ -53,7 +53,7 @@ export default function RootLayout({
           <Link href={"/isr"}>ISR</Link>
           <Link href={"/ppr"}>PPR</Link>
           <Link href={"/stream-render"}>Stream Render</Link>
-          <Link href={"/middleware"}>Middleware</Link>
+          <Link href={"/edge-middleware"}>Middleware</Link>
           <Link href={"/server-action"}>Server Action</Link>
         </nav>
         {staticSlot && dynamicSlot ? (
