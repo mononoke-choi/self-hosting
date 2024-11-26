@@ -7,11 +7,8 @@ export async function benchmark(data: string) {
   return await new Promise((resolve) => {
     const scenarios: { alg: string, digest: BinaryToTextEncoding }[] = [
       { alg: 'md5', digest: 'hex' },
-      { alg: 'md5', digest: 'base64' },
       { alg: 'sha1', digest: 'hex' },
-      { alg: 'sha1', digest: 'base64' },
       { alg: 'sha256', digest: 'hex' },
-      { alg: 'sha256', digest: 'base64' }
     ];
 
     const perf = performance.timerify(function hashing() {
