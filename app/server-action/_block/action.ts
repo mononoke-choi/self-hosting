@@ -1,34 +1,39 @@
 "use server";
 
-import { redirect } from "next/navigation";
-import Benchmark from "benchmark";
-import { BinaryToTextEncoding, createHash, publicEncrypt } from "crypto";
+import { PerformanceObserver, performance } from "perf_hooks";
+import { BinaryToTextEncoding, createHash } from "crypto";
 
-export async function action(formData: FormData) {
-  const actionName = formData.get("action-name")?.toString();
-  const isNotValid = isNaN(parseInt(actionName ?? "", 10));
+export async function benchmark(data: string) {
+  return await new Promise((resolve) => {
+    const scenarios: { alg: string, digest: BinaryToTextEncoding }[] = [
+      { alg: 'md5', digest: 'hex' },
+      { alg: 'md5', digest: 'base64' },
+      { alg: 'sha1', digest: 'hex' },
+      { alg: 'sha1', digest: 'base64' },
+      { alg: 'sha256', digest: 'hex' },
+      { alg: 'sha256', digest: 'base64' }
+    ];
 
-  if (isNotValid) {
-    throw Error("Is not number type");
-  }
+    const perf = performance.timerify(function hashing() {
+      for (const { alg, digest } of scenarios) {
+        performance.mark(`${alg}-${digest}.start`);
+        let times = 1000000;
+        while(times--) {
+          createHash(alg).update(data).digest(digest);
+        }
+        performance.mark(`${alg}-${digest}.end`);
+        performance.measure(`${alg}-${digest}`, `${alg}-${digest}.start`, `${alg}-${digest}.end`)
+      }
+    });
 
-  await benchmark(actionName || "Lorem Ipsum");
+    const obs = new PerformanceObserver((list) => {
+      performance.clearMarks();
+      obs.disconnect();
 
-  redirect("/server-action/done");
-}
+      resolve(JSON.stringify(list.getEntries(), null, 4));
+    });
+    obs.observe({ entryTypes: ["measure"] });
 
-async function benchmark(data: string) {
-  const suite = new Benchmark.Suite;
-
-  const scenarios: { alg: string, digest: BinaryToTextEncoding }[] = [
-    { alg: 'sha1', digest: 'hex' },
-  ];
-
-  for (const { alg, digest } of scenarios) {
-    suite.add(`${alg}-${digest}`, () => createHash(alg).update(data).digest(digest));
-  }
-
-  suite.on('cycle', function(event: any) {
-    console.log(String(event.target));
-  }).run();
+    perf();
+  });
 }
