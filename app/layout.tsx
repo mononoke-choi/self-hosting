@@ -40,6 +40,7 @@ export default function RootLayout({
             top: 0,
             left: 0,
             background: "#151515",
+            color: "#fff",
           }}
         >
           <Link href={"/"}>Index</Link>
